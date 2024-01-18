@@ -1,1 +1,4 @@
 esp/config.h
+mongo_config.py
+.vscode/arduino.json
+.vscode/c_cpp_properties.json
