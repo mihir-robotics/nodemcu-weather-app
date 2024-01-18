@@ -22,6 +22,7 @@ WiFiClient client;
 DHT dht(DHTPIN, DHTTYPE);
 // Set delay between sending reading
 const int DELAY_MS = 100;
+const int JSON_SIZE_BYTES = 1024;
 
 void setup()
 {
@@ -35,14 +36,14 @@ void setup()
         Serial.print(".");
     }
     Serial.println("WiFi connected");
-    
+
     // Start DHT sensor
     dht.begin();
 }
 
 void loop()
 {
-    // send_data(get_sensor_data());
+
     send_JSON(get_data_JSON());
     delay(DELAY_MS); // Wait 100ms before sending data
 }
@@ -52,8 +53,7 @@ DynamicJsonDocument get_data_JSON()
 {
     float temperature = dht.readTemperature();
     float humidity = dht.readHumidity();
-    // const size_t capacity = JSON_OBJECT_SIZE(2) + 2 * JSON_FLOAT_SIZE;
-    DynamicJsonDocument jsonDoc(1024);
+    DynamicJsonDocument jsonDoc(JSON_SIZE_BYTES);
 
     // Add temperature and humidity to the JSON document
     jsonDoc["temperature"] = temperature;

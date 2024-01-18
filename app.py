@@ -11,10 +11,7 @@ def index():
 
 @app.route('/get-data', methods=['GET'])
 def get_data():
-    try:
-        global data
-    except:
-        pass
+    global data
     return data
 
 @app.route('/send-data', methods=['POST'])
