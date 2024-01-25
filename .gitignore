@@ -4,3 +4,4 @@ esp/config.h
 plot.py
 **/__pycache__/
 __pycache__/mongo.cpython-39.pyc
+.venv/
