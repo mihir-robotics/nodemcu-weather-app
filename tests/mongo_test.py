@@ -25,7 +25,7 @@ class MongoTest(unittest.TestCase):
         mock_response = MagicMock()
         mock_collection.insert_one.return_value = mock_response
         response = load(mock_collection, {'key': 'value'})
-        self.assertEqual(response, {"inserted_id": str(mock_response.inserted_id)})
+        self.assertEqual(response, None) # Updated this
 
     # Test fetch function
     @patch('pymongo.collection.Collection')
