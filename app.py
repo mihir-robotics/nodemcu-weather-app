@@ -24,7 +24,6 @@ Dependencies:
 
 # Imports
 from flask import Flask, render_template, request
-import asyncio
 from asyncio import run, sleep
 from mongo import connectToMongo, load, fetch, mongoClose
 from atexit import register
@@ -62,7 +61,6 @@ def receive_data():
 # Run async task to get updated sensor values
 async def update_sensor_data():
     await sleep(1)  # Simulating some asynchronous task
-    print(f"Updated sensor data")
     load(collection,data)
 
 
