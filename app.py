@@ -25,11 +25,18 @@ Dependencies:
 # Imports
 from flask import Flask, render_template, request
 import asyncio
-import mongo # Local module
+from asyncio import run, sleep
+from mongo import connectToMongo, load, fetch, mongoClose
+from atexit import register
+
+sensor_data=""
 
 app = Flask(__name__)
 
-sensor_data=""
+client, database, collection = connectToMongo()
+
+# Close connection to MongoDB when Flask app is terminated
+register(mongoClose, client)
 
 # Render index.html
 @app.route('/')
@@ -48,17 +55,15 @@ def receive_data():
     global sensor_data
     global data
     data = request.get_json()
-    temperature =  data.get('temperature')
-    humidity = data.get('humidity')
     
-    sensor_data = "Temperature: " + str(temperature) + " | Humidity: " + str(humidity) 
-    asyncio.run(update_sensor_data())  # Run the asynchronous update
+    run(update_sensor_data())  # Run the asynchronous update
     return data
 
 # Run async task to get updated sensor values
 async def update_sensor_data():
-    await asyncio.sleep(1)  # Simulating some asynchronous task
-    print(f"Updated sensor data: {sensor_data}")
+    await sleep(1)  # Simulating some asynchronous task
+    print(f"Updated sensor data")
+    load(collection,data)
 
 
 if __name__ == '__main__':
