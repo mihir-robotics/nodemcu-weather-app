@@ -3,8 +3,8 @@
 name: Push Tests
 
 on:
-  push:
-    branches: [mongo-test]
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
