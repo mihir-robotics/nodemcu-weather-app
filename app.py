@@ -21,16 +21,11 @@ Dependencies:
     - asyncio: Asynchronous programming library for handling asynchronous tasks.
     - mongo: Local module, handles mongodb operations.
 """
-
 # Imports
 from flask import Flask, render_template, request
 from asyncio import run, sleep
 from mongo import connectToMongo, load, mongoClose
 from atexit import register
-    
-sensor_data=""
-global data
-data = {'temperature': 0, 'humidity': 0}
 
 app = Flask(__name__)
 
@@ -39,21 +34,22 @@ client, database, collection = connectToMongo()
 # Close connection to MongoDB when Flask app is terminated
 register(mongoClose, client)
 
+data = {'temperature': 0.0, 'humidity': 0.0}
+
 # Render index.html
 @app.route('/')
 def index():
-    return render_template('index.html', sensor_data=sensor_data)
+    return render_template('index.html')
 
 # Get data for script.js 
 @app.route('/get-data', methods=['GET'])
 def get_data():
-    
     return data
 
 # Get data from NodeMCU
 @app.route('/send-data', methods=['POST'])
 def receive_data():
-    global sensor_data
+    global data
     data = request.get_json()
     run(update_sensor_data())
     return data
@@ -61,7 +57,7 @@ def receive_data():
 # Run async task to get updated sensor values
 async def update_sensor_data():
     await sleep(1)  # Simulating some asynchronous task
-    load(collection, data)
+    load(collection, data) # ObjectID JSON issue happens here...
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)  # Expose this app to local network.

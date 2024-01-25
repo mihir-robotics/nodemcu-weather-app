@@ -33,8 +33,8 @@ def load(collection, data):
     '''
     Load incoming data in DB and return response message
     '''
-    response = collection.insert_one(data)
-    return {"inserted_id": str(response.inserted_id)}
+    collection.insert_one(data)
+    
 
 # Fetch recent data
 def fetch(collection, n_records=1):
