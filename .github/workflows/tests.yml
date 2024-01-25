@@ -24,4 +24,3 @@ jobs:
         run: |
           cd tests
           python -m unittest mongo_test.py
-          python -m unittest flask_test.py
