@@ -25,10 +25,12 @@ Dependencies:
 # Imports
 from flask import Flask, render_template, request
 from asyncio import run, sleep
-from mongo import connectToMongo, load, fetch, mongoClose
+from mongo import connectToMongo, load, mongoClose
 from atexit import register
-
+    
 sensor_data=""
+global data
+data = {'temperature': 0, 'humidity': 0}
 
 app = Flask(__name__)
 
@@ -45,24 +47,21 @@ def index():
 # Get data for script.js 
 @app.route('/get-data', methods=['GET'])
 def get_data():
-    global data
+    
     return data
 
 # Get data from NodeMCU
 @app.route('/send-data', methods=['POST'])
 def receive_data():
     global sensor_data
-    global data
     data = request.get_json()
-    
-    run(update_sensor_data())  # Run the asynchronous update
+    run(update_sensor_data())
     return data
 
 # Run async task to get updated sensor values
 async def update_sensor_data():
     await sleep(1)  # Simulating some asynchronous task
-    load(collection,data)
-
+    load(collection, data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)  # Expose this app to local network.

@@ -1,6 +1,6 @@
 # .github/workflows/tests.yml
 
-name: Run Tests
+name: Push Tests
 
 on:
   push:
