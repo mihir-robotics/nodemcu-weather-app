@@ -11,7 +11,7 @@ Functions:
 """
 # Imports
 import pymongo
-from mongo_config import mongo_creds
+from src.mongo_config import mongo_creds
 
 # Get mondgoDB credentials from config module...Replace with your own database/atlas credentials
 mongo_uri = mongo_creds["mongo_uri"]
