@@ -22,7 +22,8 @@ Dependencies:
     - mongo: Local module, handles mongodb operations.
 """
 # Imports
-from flask import Flask, render_template, request
+import os
+from flask import Flask, render_template, send_from_directory, request
 from asyncio import run, sleep
 from etl import validateSensorData, writeToCache, fetchLatest
 
@@ -57,6 +58,12 @@ async def update_sensor_data():
     if validateSensorData(data):
         writeToCache(data)
 
+
+# Define a route to serve the JSON file
+@app.route('/<filename>')
+def serve_json(filename):
+    json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), filename)
+    return send_from_directory(os.path.dirname(json_path), os.path.basename(json_path))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)  # Expose this app to local network.
