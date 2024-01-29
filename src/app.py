@@ -24,15 +24,9 @@ Dependencies:
 # Imports
 from flask import Flask, render_template, request
 from asyncio import run, sleep
-from mongo import connectToMongo, load, mongoClose
-from atexit import register
+from etl import validateSensorData, writeToCache, fetchLatest
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
-
-client, database, collection = connectToMongo()
-
-# Close connection to MongoDB when Flask app is terminated
-register(mongoClose, client)
 
 data = {'temperature': 0.0, 'humidity': 0.0}
 
@@ -44,7 +38,10 @@ def index():
 # Get data for script.js 
 @app.route('/get-data', methods=['GET'])
 def get_data():
-    return data
+    if data['temperature'] is None and data['humidity'] is None:
+        return fetchLatest(data)
+    else:
+        return data
 
 # Get data from NodeMCU
 @app.route('/send-data', methods=['POST'])
@@ -57,7 +54,9 @@ def receive_data():
 # Run async task to get updated sensor values
 async def update_sensor_data():
     await sleep(1)  # Simulating some asynchronous task
-    load(collection, data) # ObjectID JSON issue happens here...
+    if validateSensorData(data):
+        writeToCache(data)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)  # Expose this app to local network.
