@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>DHT.io</title>
 </head>
 <body>
@@ -20,10 +21,10 @@
             </div>
         </div>
         <div id="chartContainer">
-            <canvas id="chartTest"></canvas>
+            <canvas id="temperatureChart"></canvas>
+            <canvas id="humidityChart"></canvas>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
