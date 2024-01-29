@@ -6,7 +6,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.app import app
+from app import app
 
 class FlaskTest(unittest.TestCase):
 

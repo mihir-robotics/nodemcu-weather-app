@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
+
     // Function to update sensor data
     function updateSensorData() {
         fetch('/get-data')  // Sensor data endpoint

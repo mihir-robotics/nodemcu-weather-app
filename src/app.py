@@ -24,10 +24,10 @@ Dependencies:
 # Imports
 from flask import Flask, render_template, request
 from asyncio import run, sleep
-from src.mongo import connectToMongo, load, mongoClose
+from mongo import connectToMongo, load, mongoClose
 from atexit import register
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 client, database, collection = connectToMongo()
 
@@ -39,7 +39,7 @@ data = {'temperature': 0.0, 'humidity': 0.0}
 # Render index.html
 @app.route('/')
 def index():
-    return render_template('templates/index.html')
+    return render_template('index.html')
 
 # Get data for script.js 
 @app.route('/get-data', methods=['GET'])
