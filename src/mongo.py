@@ -11,12 +11,11 @@ Functions:
 """
 # Imports
 import pymongo
-from mongo_config import mongo_creds
 
 # Get mondgoDB credentials from config module...Replace with your own database/atlas credentials
-mongo_uri = mongo_creds["mongo_uri"]
-database_name = mongo_creds["database_name"]
-collection_name = mongo_creds["collection_name"]
+mongo_uri = "mongodb://localhost:27017/"
+database_name = "esp-weather"
+collection_name = "iot"
 
 # Connection method
 def connectToMongo(uri=mongo_uri, database_name=database_name, collection_name=collection_name):
