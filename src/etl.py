@@ -23,13 +23,16 @@ def validateSensorData(sensorData:dict)-> bool:
     return flag
 
 
-def writeToCache(sensorData:dict, limit=100) -> None:
+def writeToCache(sensorData:dict, limit=100, cache_file=None) -> None:
     '''
     Write data to JSON file, if full load onto Mongo
     '''
+    if cache_file is None:
+        cache_file = 'cache.json'
+
     # Check if file exists and read it
-    if os.path.exists('.\\cache.json'):
-        with open('cache.json', 'r') as json_file:
+    if os.path.exists(cache_file):
+        with open(cache_file, 'r') as json_file:
             data = json.load(json_file)
     else:
         data = []
@@ -39,22 +42,25 @@ def writeToCache(sensorData:dict, limit=100) -> None:
         data.append(sensorData)
 
         # Write data back to JSON file
-        with open('cache.json', 'w') as json_file:
+        with open(cache_file, 'w') as json_file:
             json.dump(data, json_file)
     
     else:
         loadToMongo(data)
         # Clear the JSON file
-        with open('cache.json', 'w') as json_file:
+        with open(cache_file, 'w') as json_file:
             json.dump([], json_file)
 
-def fetchLatest(data:dict) -> dict:
+def fetchLatest(data:dict, cache_file=None) -> dict:
     '''
     fetch the most recent record from the json cache
     '''
+    if cache_file is None:
+        cache_file = 'cache.json'
+
     # Check if file exists and read it
-    if os.path.exists('cache.json'):
-        with open('cache.json', 'r') as json_file:
+    if os.path.exists(cache_file):
+        with open(cache_file, 'r') as json_file:
             data = json.load(json_file)
     
     return data[-1] if data else {}
