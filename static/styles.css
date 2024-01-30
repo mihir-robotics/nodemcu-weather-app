@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #2b2b2b;
+    background: linear-gradient(to right, #2b2b2b, #3a3a3a);
     margin: 0;
     padding: 0;
     display: flex;
@@ -35,8 +35,8 @@ h1 {
     font-size: 100px;
     width: fit-content;
     height: 20%;
-    margin-left: 5%;
-    margin-top: 3%;
+    margin-left: 20%;
+
     
 }
 
@@ -64,6 +64,7 @@ h1 {
     width: fit-content;
     text-align: right;
     margin-left: auto ;
+    margin-top: 10%;
 }
 
 #chartContainer {
