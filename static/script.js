@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     label: 'Temperature',
                     data: temperatureData.map(record => record.temperature),
                     borderColor: 'rgb(255, 99, 132)',
+                    pointRadius: 0,
                     borderWidth: 4,
                     fill: false
                 }]
@@ -45,8 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     }
-
-
 
     // Function to update the humidity chart
     function updateHumidityChart(humidityData) {
@@ -69,12 +68,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     data: humidityData.map(record => record.humidity),
                     borderColor: 'rgb(75, 192, 192)',
                     borderWidth: 4,
+                    pointRadius: 0,
                     fill: false
                 }]
             },
             options: {
-                responsive: false,
-                maintainAspectRatio: false,
+                responsive: true,
+                maintainAspectRatio: true,
                 scales: {
                     x: {
                         type: 'linear',
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateHumidityChart(humidityData);
 
         // Schedule the next update after a certain interval (e.g., 5 seconds)
-        setTimeout(updateCharts, 10000);
+        setTimeout(updateCharts, 5000);
     }
 
     // Function to update sensor data
@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 // Update the content of the sensorData div
-                document.getElementById('temperature_reading').innerText = `${data.temperature}°C`;
-                document.getElementById('humidity_reading').innerText = `${data.humidity}%`;
+                document.getElementById('temperature_reading').innerText = `${data.temperature} °C`;
+                document.getElementById('humidity_reading').innerText = `${data.humidity} %`;
             })
             .catch(error => {
                 console.error('Error fetching sensor data:', error);
