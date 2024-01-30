@@ -23,19 +23,19 @@ def validateSensorData(sensorData:dict)-> bool:
     return flag
 
 
-def writeToCache(sensorData:dict)-> None:
+def writeToCache(sensorData:dict, limit=100)-> None:
     '''
     Write data to JSON file, if full load onto Mongo
     '''
     # Check if file exists and read it
-    if os.path.exists('cache.json'):
+    if os.path.exists('.\\cache.json'):
         with open('cache.json', 'r') as json_file:
             data = json.load(json_file)
     else:
         data = []
 
     # Append new sensor data if less than 100 records
-    if len(data) < 20:
+    if len(data) < limit:
         data.append(sensorData)
 
         # Write data back to JSON file
