@@ -22,29 +22,27 @@ Dependencies:
     - mongo: Local module, handles mongodb operations.
 """
 # Imports
-from flask import Flask, render_template, request
+import os
+from flask import Flask, render_template, send_from_directory, request
 from asyncio import run, sleep
-from src.mongo import connectToMongo, load, mongoClose
-from atexit import register
+from etl import validateSensorData, writeToCache, fetchLatest
 
-app = Flask(__name__)
-
-client, database, collection = connectToMongo()
-
-# Close connection to MongoDB when Flask app is terminated
-register(mongoClose, client)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 data = {'temperature': 0.0, 'humidity': 0.0}
 
 # Render index.html
 @app.route('/')
 def index():
-    return render_template('templates/index.html')
+    return render_template('index.html')
 
 # Get data for script.js 
 @app.route('/get-data', methods=['GET'])
 def get_data():
-    return data
+    if data['temperature'] is None and data['humidity'] is None:
+        return fetchLatest(data)
+    else:
+        return data
 
 # Get data from NodeMCU
 @app.route('/send-data', methods=['POST'])
@@ -55,9 +53,17 @@ def receive_data():
     return data
 
 # Run async task to get updated sensor values
-async def update_sensor_data():
+async def update_sensor_data() -> None:
     await sleep(1)  # Simulating some asynchronous task
-    load(collection, data) # ObjectID JSON issue happens here...
+    if validateSensorData(data):
+        writeToCache(data)
+
+
+# Define a route to serve the JSON file
+@app.route('/<filename>')
+def serve_json(filename):
+    json_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), filename)
+    return send_from_directory(os.path.dirname(json_path), os.path.basename(json_path))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)  # Expose this app to local network.

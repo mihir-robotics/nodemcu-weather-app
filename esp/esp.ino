@@ -27,7 +27,7 @@ WiFiClient client; // Client object for HTTP communication
 
 DHT dht(DHTPIN, DHTTYPE); // Create DHT sensor object
 
-const int DELAY_MS = 1000; // Set delay between messages (1s)
+const int DELAY_MS = 10000; // Set delay between messages (10s)
 
 const int JSON_SIZE_BYTES = 100; // Define byte size for JSON message
 

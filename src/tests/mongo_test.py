@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import unittest
 from unittest.mock import patch, MagicMock
-from src.mongo import connectToMongo, load, fetch, mongoClose
+from mongo import connectToMongo, load, fetch, mongoClose
 
 
 class MongoTest(unittest.TestCase):

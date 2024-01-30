@@ -28,6 +28,8 @@ jobs:
           pip install -r requirements.txt
       - name: Run tests
         run: |
+          cd src
           cd tests
+          python -m unittest etl_test.py
           python -m unittest mongo_test.py
           python -m unittest flask_test.py

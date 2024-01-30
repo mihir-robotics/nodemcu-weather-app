@@ -3,3 +3,4 @@ esp/config.h
 .vscode/arduino.json
 .vscode/c_cpp_properties.json
 plot.py
+cache.json
