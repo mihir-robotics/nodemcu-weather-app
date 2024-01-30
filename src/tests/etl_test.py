@@ -38,7 +38,7 @@ class TestAppFunctions(unittest.TestCase):
     @patch('etl.loadToMongo')
     def test_writeToCache_exceeds_limit(self, mock_loadToMongo):
         # Add 21 records to exceed the limit
-        for _ in range(21):
+        for _ in range(101):
             writeToCache(self.valid_sensor_data)
         with open('cache.json', 'r') as json_file:
             data = json.load(json_file)
