@@ -7,7 +7,7 @@ from mongo import connectToMongo, load, mongoClose
 
 client, database, collection = connectToMongo()
 
-def loadToMongo(sensorDataList:list)-> None:
+def loadToMongo(sensorDataList:list) -> None:
     '''
     load list of data in MongoDB
     '''
@@ -23,7 +23,7 @@ def validateSensorData(sensorData:dict)-> bool:
     return flag
 
 
-def writeToCache(sensorData:dict, limit=100)-> None:
+def writeToCache(sensorData:dict, limit=100) -> None:
     '''
     Write data to JSON file, if full load onto Mongo
     '''
@@ -48,7 +48,7 @@ def writeToCache(sensorData:dict, limit=100)-> None:
         with open('cache.json', 'w') as json_file:
             json.dump([], json_file)
 
-def fetchLatest(data:dict)->dict:
+def fetchLatest(data:dict) -> dict:
     '''
     fetch the most recent record from the json cache
     '''

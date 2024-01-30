@@ -53,7 +53,7 @@ def receive_data():
     return data
 
 # Run async task to get updated sensor values
-async def update_sensor_data():
+async def update_sensor_data() -> None:
     await sleep(1)  # Simulating some asynchronous task
     if validateSensorData(data):
         writeToCache(data)

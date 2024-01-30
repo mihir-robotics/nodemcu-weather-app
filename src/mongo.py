@@ -18,7 +18,7 @@ database_name = "esp-weather"
 collection_name = "iot"
 
 # Connection method
-def connectToMongo(uri=mongo_uri, database_name=database_name, collection_name=collection_name):
+def connectToMongo(uri=mongo_uri, database_name=database_name, collection_name=collection_name) -> tuple:
     '''
     Connect to DB and return the client, database and collection
     '''
@@ -28,7 +28,7 @@ def connectToMongo(uri=mongo_uri, database_name=database_name, collection_name=c
     return mongoClient, database, collection
 
 # Load data in DB
-def load(collection, data):
+def load(collection, data:dict) -> None:
     '''
     Load incoming data in DB and return response message
     '''
@@ -36,7 +36,7 @@ def load(collection, data):
     
 
 # Fetch recent data
-def fetch(collection, n_records=1):
+def fetch(collection, n_records=1) -> list:
     '''
     Return the most recent n_records, for visualisation purposes.
     '''
